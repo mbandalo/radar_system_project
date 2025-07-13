@@ -1,0 +1,105 @@
+# conf/config.yaml
+
+# Data configuration
+data:
+  root: "" # Base path for radar dataset sequences.
+  train_frac: 0.8 # Fraction of dataset samples allocated for training.
+
+# Sensor calibration parameters
+calibration_params:
+  sensor_poses: # Sensor extrinsic parameters (rotation matrix R, translation vector t).
+    1:
+      R: [[1.0, 0.0, 0.0],
+          [0.0, 1.0, 0.0],
+          [0.0, 0.0, 1.0]]
+      t: [0.0, 0.0, 0.0]
+    2:
+      R: [[1.0, 0.0, 0.0],
+          [0.0, 1.0, 0.0],
+          [0.0, 0.0, 1.0]]
+      t: [1.0, 0.0, 0.0]
+    3:
+      R: [[1.0, 0.0, 0.0],
+          [0.0, 1.0, 0.0],
+          [0.0, 0.0, 1.0]]
+      t: [0.0, 1.0, 0.0]
+    4:
+      R: [[1.0, 0.0, 0.0],
+          [0.0, 1.0, 0.0],
+          [0.0, 0.0, 1.0]]
+      t: [1.0, 1.0, 0.0]
+  noise_model: # Sensor noise model parameters.
+    1: 1.0
+    2: 1.0
+    3: 1.0
+    4: 1.0
+  hetero_model: null # Path to heteroskedastic calibration model or null.
+
+# Sensor module (Autoencoder) configuration
+sensors:
+  batch_size: 32 # Batch size for sensor module training.
+  num_workers: 0 # Number of data loader workers for sensor module.
+  input_dim: 6 # Dimensionality of input radar points (e.g., x, y, vr, range, azimuth, rcs).
+  latent_dim: 64 # Dimensionality of the AE's latent space.
+  hidden_dims: [128, 256, 128] # Hidden layer dimensions for the AE's encoder/decoder.
+  lr: 5e-5 # Learning rate for the AE optimizer.
+  epochs: 20 # Number of training epochs for the AE.
+  beta: 0.1 # Beta parameter for KL divergence weight in VAE loss.
+  force_retrain_ae: true # Boolean to force retraining of the AE model.
+  free_bits: 3.0 # Free bits regularization threshold for KL divergence.
+  ae_model_path: "checkpoints/ae.pth" # File path for saving/loading the AE model checkpoint.
+  ae_classification_loss_weight: 10.0 # Weight for the classification loss component in AE training.
+
+# Scene module (HMM and GNN) configuration
+scene:
+  batch_size: 16 # Batch size for scene module training.
+  num_workers: 0 # Number of data loader workers for scene module.
+  num_states: 8 # Number of hidden states in the HMM.
+  hidden_dim: 64 # Hidden layer dimension for the GNN.
+  gnn_hidden_layers: [64, 64] # Hidden layer dimensions for the GNN's architecture.
+  num_classes: 12 # Total number of point classification classes.
+  lr: 1e-4 # Learning rate for HMM and GNNPointSegmenter optimizers.
+  epochs: 50 # Number of training epochs for the scene module.
+  force_retrain_scene: true # Boolean to force retraining of the HMM and GNN models.
+  hmm_model_path: "checkpoints/hmm.pth" # File path for saving/loading the HMM model checkpoint.
+  gnn_model_path: "checkpoints/gnn_point_segmenter.pth" # File path for saving/loading the GNN point segmenter checkpoint.
+  use_focal_loss: false # Boolean to enable/disable Focal Loss for classification.
+  focal_gamma: 2.0 # Gamma parameter for Focal Loss (if enabled).
+  weight_for_static_override: 1.0 # Weight applied to the static class (Class 11) in loss calculation.
+  focal_loss_gamma: 2.0 # Redundant with focal_gamma, specifies gamma for focal loss.
+  max_class_weight: 50.0 # Maximum allowed weight for any class in weighted loss.
+  target_samples_per_class: 2000 # Target number of samples per class for balanced sampling.
+  sampler_total_multiplier: 0.3 # Multiplier for the total number of samples per epoch in weighted sampling.
+  scheduler_factor: 0.5 # Factor by which the learning rate is reduced by the scheduler.
+  scheduler_patience: 5 # Number of epochs with no improvement before learning rate reduction.
+  gnn_dropout_rate: 0.4 # Dropout rate applied in the GNN layers.
+  early_stopping_patience: 10 # Number of epochs with no validation loss improvement before early stopping.
+  gnn_weight_decay: 0.01 # L2 regularization (weight decay) for the GNN optimizer.
+  debug_log_filename: "scene_debug_log.txt" # Filename for the scene module's debug log.
+
+# Graph Neural Network (GNN) specific configuration
+gnn:
+  k_neighbors: 8 # Number of neighbors for k-NN graph construction within the GNN.
+
+# Reinforcement Learning (RL) agent configuration
+rl:
+  n_envs: 4 # Number of parallel environments for RL training.
+  normalize_obs: true # Boolean to enable/disable observation normalization.
+  policy: "MlpPolicy" # Policy network type (e.g., MlpPolicy for MLP-based networks).
+  lr: 3e-4 # Learning rate for the RL agent's optimizer.
+  n_steps: 2048 # Number of steps to collect from each environment before updating the policy.
+  batch_size: 64 # Mini-batch size for policy updates.
+  ent_coef: 0.01 # Entropy coefficient for exploration in RL loss.
+  total_timesteps: 100000 # Total number of timesteps for RL training.
+  log_freq: 1000 # Frequency (in timesteps) for logging RL training progress.
+
+# Environment configuration for RL
+env:
+  action_dim: 2 # Dimensionality of the RL agent's action space (e.g., azimuth_offset, range_scale).
+  max_points: 64 # Maximum number of radar points expected in an observation for flattening.
+
+# Simulation and logging configuration
+sim:
+  output_dir: "./logs/seq86" # Directory relative to the Hydra run directory for simulation outputs.
+  rl_model_name: "checkpoints/ppo_radar_model.zip" # File path for saving/loading the RL model checkpoint.
+  log_filename: "seq86_log.json" # Filename for the simulation log.
