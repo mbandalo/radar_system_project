@@ -20,7 +20,7 @@ This project implements a hybrid AI pipeline for per-point radar object segmenta
 
 ## 📂 Dataset
 
-The model uses the [RadarScenes dataset](https://github.com/motional/radar-scenes):
+The model uses the [RadarScenes dataset](https://radar-scenes.com/):
 
 - **Classes (12)**:  
   ```
@@ -39,9 +39,7 @@ The model uses the [RadarScenes dataset](https://github.com/motional/radar-scene
   ```
 
 Place the dataset under:
-```bash
 data/RadarScenes/RadarScenes/data/
-```
 
 ---
 
@@ -66,7 +64,7 @@ This will:
 After training, run evaluation:
 
 ```bash
-python main.py --eval
+tensorboard --logdir=.
 ```
 
 Metrics:
