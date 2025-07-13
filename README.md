@@ -40,7 +40,7 @@ The model uses the [RadarScenes dataset](https://github.com/motional/radar-scene
 
 Place the dataset under:
 ```bash
-data/RadarScenes/RadarScenes/data/sequence_undersampled_for_training/
+data/RadarScenes/RadarScenes/data/
 ```
 
 ---
@@ -50,7 +50,7 @@ data/RadarScenes/RadarScenes/data/sequence_undersampled_for_training/
 To train the full pipeline:
 
 ```bash
-python main.py --config conf/config.yaml
+python main.py
 ```
 
 This will:
