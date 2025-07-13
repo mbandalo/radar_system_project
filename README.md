@@ -39,7 +39,9 @@ The model uses the [RadarScenes dataset](https://radar-scenes.com/):
   ```
 
 Place the dataset under:
+```bash
 data/RadarScenes/RadarScenes/data/
+```
 
 ---
 
@@ -48,7 +50,7 @@ data/RadarScenes/RadarScenes/data/
 To train the full pipeline:
 
 ```bash
-python main.py
+python main.py 
 ```
 
 This will:
