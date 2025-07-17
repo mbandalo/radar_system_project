@@ -1,5 +1,5 @@
 
-# 🚘 Radar Point Cloud Segmentation with VAE-HMM-GNN-RL
+# Radar Point Cloud Segmentation with VAE-HMM-GNN-RL
 
 **Adaptive Radar Point Cloud Segmentation in Highly Imbalanced Automotive Scenarios**
 
@@ -7,18 +7,18 @@ This project implements a hybrid AI pipeline for per-point radar object segmenta
 
 ---
 
-## 📦 Features
+## Features
 
-- **🧐 VAE Encoder** – Compresses radar features into latent representations.
-- **🔁 HMM Scene Encoder** – Captures temporal dynamics across sequences.
-- **🔗 GNN Segmenter** – Performs per-point classification with spatial context.
-- **🎮 Reinforcement Learning Agent (optional)** – Learns adaptive scene-level actions.
-- **📊 Robust to Imbalanced Classes** – Weighted loss & sampling to emphasize rare objects.
-- **📁 Modular Config (`config.yaml`)** – All hyperparams & paths are easily adjustable.
+- **VAE Encoder** – Compresses radar features into latent representations.
+- **HMM Scene Encoder** – Captures temporal dynamics across sequences.
+- **GNN Segmenter** – Performs per-point classification with spatial context.
+- **Reinforcement Learning Agent (optional)** – Learns adaptive scene-level actions.
+- **Robust to Imbalanced Classes** – Weighted loss & sampling to emphasize rare objects.
+- **Modular Config (`config.yaml`)** – All hyperparams & paths are easily adjustable.
 
 ---
 
-## 📂 Dataset
+## Dataset
 
 The model uses the [RadarScenes dataset](https://radar-scenes.com/):
 
@@ -45,7 +45,7 @@ data/RadarScenes/RadarScenes/data/
 
 ---
 
-## 🚀 Training
+## Training
 
 To train the full pipeline:
 
@@ -61,7 +61,7 @@ This will:
 
 ---
 
-## 🧪 Evaluation
+## Evaluation
 
 After training, run evaluation:
 
@@ -78,7 +78,7 @@ Static class (11) is down-weighted automatically to focus on dynamic objects.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
 Key hyperparameters are located in `conf/config.yaml`:
 
@@ -98,7 +98,7 @@ class_weights[11] = 0.1
 
 ---
 
-## 🧠 Architecture
+## Architecture
 
 ```
 Raw Radar → VAE → HMM → GNN → Per-Point Class Labels
